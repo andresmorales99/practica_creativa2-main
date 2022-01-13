@@ -60,6 +60,7 @@ servicesDomain = "" if (os.environ.get("SERVICES_DOMAIN") is None) else "." + os
 detailsHostname = "details" if (os.environ.get("DETAILS_HOSTNAME") is None) else os.environ.get("DETAILS_HOSTNAME")
 ratingsHostname = "ratings" if (os.environ.get("RATINGS_HOSTNAME") is None) else os.environ.get("RATINGS_HOSTNAME")
 reviewsHostname = "reviews" if (os.environ.get("REVIEWS_HOSTNAME") is None) else os.environ.get("REVIEWS_HOSTNAME")
+groupName = "group" if (os.environ.get("GROUP_NUMBER") is None) else os.environ.get("GROUP_NUMBER")
 
 flood_factor = 0 if (os.environ.get("FLOOD_FACTOR") is None) else int(os.environ.get("FLOOD_FACTOR"))
 
@@ -92,6 +93,8 @@ service_dict = {
     "details": details,
     "reviews": reviews,
 }
+
+group = groupName
 
 # A note on distributed tracing:
 #
@@ -308,6 +311,7 @@ def front():
     reviewsStatus, reviews = getProductReviews(product_id, headers)
     return render_template(
         'productpage.html',
+        group=group,
         detailsStatus=detailsStatus,
         reviewsStatus=200,
         product=product,
