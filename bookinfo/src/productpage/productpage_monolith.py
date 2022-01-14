@@ -60,7 +60,6 @@ servicesDomain = "" if (os.environ.get("SERVICES_DOMAIN") is None) else "." + os
 detailsHostname = "details" if (os.environ.get("DETAILS_HOSTNAME") is None) else os.environ.get("DETAILS_HOSTNAME")
 ratingsHostname = "ratings" if (os.environ.get("RATINGS_HOSTNAME") is None) else os.environ.get("RATINGS_HOSTNAME")
 reviewsHostname = "reviews" if (os.environ.get("REVIEWS_HOSTNAME") is None) else os.environ.get("REVIEWS_HOSTNAME")
-groupName = "group" if (os.environ.get("GROUP_NUMBER") is None) else os.environ.get("GROUP_NUMBER")
 
 flood_factor = 0 if (os.environ.get("FLOOD_FACTOR") is None) else int(os.environ.get("FLOOD_FACTOR"))
 
@@ -94,7 +93,6 @@ service_dict = {
     "reviews": reviews,
 }
 
-group = groupName
 
 # A note on distributed tracing:
 #
@@ -249,10 +247,11 @@ def index():
     """ Display productpage with normal user and test user buttons"""
     global productpage
 
+    group1 = andres if (os.environ.get("GROUP_NUMBER") is None) else os.environ.get("GROUP_NUMBER")
     table = json2html.convert(json=json.dumps(productpage),
                               table_attributes="class=\"table table-condensed table-bordered table-hover\"")
 
-    return render_template('index.html', serviceTable=table)
+    return render_template('index.html', group=group1, serviceTable=table)
 
 
 @app.route('/health')
@@ -304,6 +303,7 @@ def front():
     user = session.get('user', '')
     product = getProduct(product_id)
     detailsStatus, details = getProductDetails(product_id, headers)
+    group1 = andres if (os.environ.get("GROUP_NUMBER") is None) else os.environ.get("GROUP_NUMBER")
 
     if flood_factor > 0:
         floodReviews(product_id, headers)
@@ -311,7 +311,7 @@ def front():
     reviewsStatus, reviews = getProductReviews(product_id, headers)
     return render_template(
         'productpage.html',
-        group=group,
+        group=group1,
         detailsStatus=detailsStatus,
         reviewsStatus=200,
         product=product,
