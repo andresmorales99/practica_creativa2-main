@@ -247,7 +247,7 @@ def index():
     """ Display productpage with normal user and test user buttons"""
     global productpage
 
-    group1 = andres if (os.environ.get("GROUP_NUMBER") is None) else os.environ.get("GROUP_NUMBER")
+    group1 = "andres" if (os.environ.get("GROUP_NUMBER") is None) else os.environ.get("GROUP_NUMBER")
     table = json2html.convert(json=json.dumps(productpage),
                               table_attributes="class=\"table table-condensed table-bordered table-hover\"")
 
@@ -303,7 +303,7 @@ def front():
     user = session.get('user', '')
     product = getProduct(product_id)
     detailsStatus, details = getProductDetails(product_id, headers)
-    group1 = andres if (os.environ.get("GROUP_NUMBER") is None) else os.environ.get("GROUP_NUMBER")
+    group1 = "andres" if (os.environ.get("GROUP_NUMBER") is None) else os.environ.get("GROUP_NUMBER")
 
     if flood_factor > 0:
         floodReviews(product_id, headers)
